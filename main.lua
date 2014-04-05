@@ -1,6 +1,7 @@
 function love.load ()
     W, H = love.graphics.getDimensions()
     X, Y = W/2, H/2
+    b, x, y, fx, fy, btl, btr, bbl, bbr = 0,0,0,0,0,0,0,0,0
     maxStars = 1024
     Stars = {}
 
@@ -36,8 +37,20 @@ function love.draw ()
 
         b = 325 - s.z * 0.325
         if b > 255 then b = 255 end
-        love.graphics.setColor(b, b, b)
-        love.graphics.point(s.sx, s.sy)
+        x, y = math.floor(s.sx), math.floor(s.sy)
+        fx, fy = s.sx - x, s.sy - y
+        btl = (1-fx)*(1-fy)*b
+        btr = (fx)*(1-fy)*b
+        bbl = (1-fx)*(fy)*b
+        bbr = (fx)*(fy)*b
+        love.graphics.setColor(btl, btl, btl)
+        love.graphics.point(x, y)
+        love.graphics.setColor(btr, btr, btr)
+        love.graphics.point(x+1, y)
+        love.graphics.setColor(bbl, bbl, bbl)
+        love.graphics.point(x, y+1)
+        love.graphics.setColor(bbr, bbr, bbr)
+        love.graphics.point(x+1, y+1)
     end
 end
 
