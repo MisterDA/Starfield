@@ -5,9 +5,10 @@ function love.load ()
     Stars = {}
 
     function reset (s)
-        s.x = math.random(-W*3, W*3)
-        s.y = math.random(-H*3, H*3)
-        s.z = math.random(100, 1000)
+        s.x = love.math.random() * (W*6) -W*3
+        s.y = love.math.random() * (H*6) -H*3
+        s.z = love.math.random() * (900) + 100
+        s.vz = love.math.random() * (5.0) + 0.5
         s.sx = 0
         s.sy = 0
     end
@@ -22,7 +23,7 @@ function love.draw ()
     for i=1, maxStars do
         s = Stars[i]
 
-        s.z = s.z - 5
+        s.z = s.z - s.vz
 
         s.sx = s.x / s.z * 100 + X
         s.sy = s.y / s.z * 100 + Y
@@ -33,7 +34,7 @@ function love.draw ()
             reset(s)
         end
 
-        b = 350 - s.z * 0.35
+        b = 325 - s.z * 0.325
         if b > 255 then b = 255 end
         love.graphics.setColor(b, b, b)
         love.graphics.point(s.sx, s.sy)
