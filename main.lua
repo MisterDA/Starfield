@@ -41,7 +41,8 @@ function love.draw ()
 
         if s.sx < 0 or s.sx > W or
            s.sy < 0 or s.sy > H or
-           s.z < 1 then
+           s.sx == X and s.sy == Y or
+           s.z < 1 or s.z > 1000 then
             reset(s)
         end
 
