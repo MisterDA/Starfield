@@ -1,13 +1,14 @@
 function love.load ()
     love.graphics.setLineStyle('smooth')
     W, H = love.graphics.getDimensions()
-    X, Y = W/2, H/2
+    X, Y, K1, K2 = W/2, H/2, 5*W, 5*H
+    speed = 0
     Stars = {}
 
     maxStars = 1024
     function reset (s)
-        s.x = love.math.random() * (W*6) -W*3
-        s.y = love.math.random() * (H*6) -H*3
+        s.x = K1*(love.math.random() - 0.5)
+        s.y = K2*(love.math.random() - 0.5)
         s.z = love.math.random() * (900) + 100
         s.vz = love.math.random() * (5.0) + 0.5
         s.sx = s.x / s.z * 100 + X
@@ -22,11 +23,19 @@ function love.load ()
     end
 end
 
+function love.update (dt)
+    if love.keyboard.isDown('up') then
+        speed = speed + dt
+    elseif love.keyboard.isDown('down') then
+        speed = speed - dt
+    end
+end
+
 function love.draw ()
     for i=1, maxStars do
         s = Stars[i]
 
-        s.z = s.z - s.vz
+        s.z = s.z - s.vz - speed
         s.sx = s.x / s.z * 100 + X
         s.sy = s.y / s.z * 100 + Y
 
