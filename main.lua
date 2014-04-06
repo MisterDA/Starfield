@@ -1,17 +1,19 @@
 function love.load ()
+    love.graphics.setLineStyle('smooth')
     W, H = love.graphics.getDimensions()
     X, Y = W/2, H/2
-    b, x, y, fx, fy, btl, btr, bbl, bbr = 0,0,0,0,0,0,0,0,0
-    maxStars = 1024
     Stars = {}
 
+    maxStars = 1024
     function reset (s)
         s.x = love.math.random() * (W*6) -W*3
         s.y = love.math.random() * (H*6) -H*3
         s.z = love.math.random() * (900) + 100
         s.vz = love.math.random() * (5.0) + 0.5
-        s.sx = 0
-        s.sy = 0
+        s.sx = s.x / s.z * 100 + X
+        s.sy = s.y / s.z * 100 + Y
+        s.ox = s.sx
+        s.oy = s.sy
     end
 
     for i=1, maxStars do
@@ -25,7 +27,6 @@ function love.draw ()
         s = Stars[i]
 
         s.z = s.z - s.vz
-
         s.sx = s.x / s.z * 100 + X
         s.sy = s.y / s.z * 100 + Y
 
@@ -35,22 +36,12 @@ function love.draw ()
             reset(s)
         end
 
-        b = 325 - s.z * 0.325
+        b = 280 - s.z * 0.280
         if b > 255 then b = 255 end
-        x, y = math.floor(s.sx), math.floor(s.sy)
-        fx, fy = s.sx - x, s.sy - y
-        btl = (1-fx)*(1-fy)*b
-        btr = (fx)*(1-fy)*b
-        bbl = (1-fx)*(fy)*b
-        bbr = (fx)*(fy)*b
-        love.graphics.setColor(btl, btl, btl)
-        love.graphics.point(x, y)
-        love.graphics.setColor(btr, btr, btr)
-        love.graphics.point(x+1, y)
-        love.graphics.setColor(bbl, bbl, bbl)
-        love.graphics.point(x, y+1)
-        love.graphics.setColor(bbr, bbr, bbr)
-        love.graphics.point(x+1, y+1)
+        love.graphics.setColor(b, b, b)
+        love.graphics.line(s.sx, s.sy, s.ox, s.oy)
+        s.ox = s.sx
+        s.oy = s.sy
     end
 end
 
