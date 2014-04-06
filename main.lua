@@ -63,5 +63,5 @@ end
 
 function love.resize (w, h)
     W, H = w, h
-    X, Y = W/2, H/2
+    X, Y, K1, K2 = W/2, H/2, 5*W, 5*H
 end
